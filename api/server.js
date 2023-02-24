@@ -1,5 +1,14 @@
-const express = require('express');
+const express = require("express");
+const cors = require("cors");
+const actionRoutes = require("./actions/actions-router");
+const projectsRoutes = require("./projects/projects-router");
 const server = express();
+
+server.use(express.json());
+server.use(cors());
+
+server.use("/api/projects", projectsRoutes);
+server.use("/api/actions", actionRoutes);
 
 // Sunucunuzu yapılandırın
 // Eylem routerınızı /api/actions/actions-router.js içinde oluşturun

@@ -1,7 +1,7 @@
 // BU DOSYADA DEĞİŞİKLİK YAPMAYIN
 // BU DOSYADA DEĞİŞİKLİK YAPMAYIN
 const db = require("../../data/dbConfig.js");
-const mappers = require('../../data/helpers/mappers');
+const mappers = require("../../data/helpers/mappers");
 
 module.exports = {
   get,
@@ -19,7 +19,7 @@ function get(id) {
 
     const promises = [query, getProjectActions(id)]; // [ projects, actions ]
 
-    return Promise.all(promises).then(function(results) {
+    return Promise.all(promises).then(function (results) {
       let [project, actions] = results;
 
       if (project) {
@@ -31,8 +31,8 @@ function get(id) {
       }
     });
   } else {
-    return query.then(projects => {
-      return projects.map(project => mappers.projectToBody(project));
+    return query.then((projects) => {
+      return projects.map((project) => mappers.projectToBody(project));
     });
   }
 }
@@ -47,17 +47,15 @@ function update(id, changes) {
   return db("projects")
     .where("id", id)
     .update(changes)
-    .then(count => (count > 0 ? get(id) : null));
+    .then((count) => (count > 0 ? get(id) : null));
 }
 
 function remove(id) {
-  return db("projects")
-    .where("id", id)
-    .del();
+  return db("projects").where("id", id).del();
 }
 
 function getProjectActions(projectId) {
   return db("actions")
     .where("project_id", projectId)
-    .then(actions => actions.map(action => mappers.actionToBody(action)));
+    .then((actions) => actions.map((action) => mappers.actionToBody(action)));
 }
